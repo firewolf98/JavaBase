@@ -1,15 +1,24 @@
 package org.it.svil.test;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Error {
-    public static void main(String[] args)  {
-        List<String> strings = Arrays.asList("Pippo","Pluto", "Topolino", "Minnie", "Paperino");
+    public static void main(String[] args) {
+        String[] fruits = {"Apple", "Banana", "Cherry", "Date"};
+        int index = getRandomIndex();
 
-        String valricercato = "Topolino";
-
-        System.out.println(strings.stream().filter(s->s.contains(valricercato)).count()>0?"Trovato":"Non trovato");
+        try {
+            System.out.println("Selected fruit: " + fruits[index]);
+            int length = fruits[index].length();
+            System.out.println("Length of the fruit name: " + length);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Array index out of bounds: " + e.getMessage());
+        }
     }
 
+    public static int getRandomIndex() {
+        return (int) (Math.random() * 5);
+    }
 }
 

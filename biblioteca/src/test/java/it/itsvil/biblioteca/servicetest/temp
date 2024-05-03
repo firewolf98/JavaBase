@@ -1,0 +1,45 @@
+private Map<String, Book> readFromFile() {
+        Map<String, Book> bookMap = new HashMap<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Utente\\Desktop\\ItSvil\\EserciziJava\\biblioteca\\src\\main\\java\\it\\itsvil\\biblioteca\\fileditest\\books"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 3) {
+                    String isbn = parts[0].trim();
+                    String title = parts[1].trim();
+                    String author = parts[2].trim();
+                    Book book = new Book(isbn, title,author);
+                    bookMap.put(isbn, book);
+                }
+            }
+        }catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return bookMap;
+    }
+
+    private Book addUBook(String isbn, String title, String author) {
+        Map<String, Book> bookMap = readFromFile();
+        Book newBook = new Book(isbn, title,author);
+
+        if (bookMap.containsKey(isbn)) {
+            System.err.println("Il libro con l'isbn " + isbn + " esiste già.");
+            return null;
+        }
+
+        bookMap.put(isbn, newBook);
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\Utente\\Desktop\\ItSvil\\EserciziJava\\biblioteca\\src\\main\\java\\it\\itsvil\\biblioteca\\fileditest\\books", true))) {
+
+            writer.write(isbn + "," + title + "," + author);
+            writer.newLine();
+            writer.flush();
+            return newBook;
+        } catch (IOException e) {
+            bookMap.remove(isbn);
+            e.printStackTrace();
+            return null;
+        }
+    }

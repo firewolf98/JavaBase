@@ -7,10 +7,19 @@ import java.util.List;
 
 public class Elenco {
     public static void main(String[] args) {
-        List<Alimento> alimenti = new ArrayList<>();
-        alimenti.add(new Alimento("Pasta", 0.50));
-        alimenti.add(new Alimento("Latte", 1.0));
-        for(Alimento alimento: alimenti)
-            System.out.println(alimento);
+        String[] fruits = {"Apple", "Banana", "Cherry", "Date"};
+        int index = getRandomIndex();
+
+        try {
+            System.out.println("Selected fruit: " + fruits[index]);
+            int length = fruits[index].length();
+            System.out.println("Length of the fruit name: " + length);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Array index out of bounds: " + e.getMessage());
+        }
+    }
+
+    public static int getRandomIndex() {
+        return (int) (Math.random() * 5);
     }
 }
